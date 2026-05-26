@@ -21,12 +21,12 @@ public class Deck {
     }
 
     // TODO gérer si la carte est déjà dans le Deck ? Pareil pour les autres méthodes ?
-    public void addOnTop() {
-
+    public void addOnTop(Card card) {
+        cards.addFirst(card);
     }
 
-    public void addAtBottom() {
-
+    public void addAtBottom(Card card) {
+        cards.addLast(card);
     }
 
     // Mélanger le deck
@@ -46,8 +46,9 @@ public class Deck {
         Deck fullDeck = new Deck();
         for (Suit suit : Suit.values()) {
             for (Rank rank : Rank.values()) {
-                // TODO ? method ou accès direct à cards ?
+                // TODO ? methode existante ou accès direct à cards ?
 //                fullDeck.addCard(new Card(suit, rank));
+                // TODO add ou une méthode de Deque ?
                 fullDeck.cards.add(new Card(suit, rank));
             }
         }
