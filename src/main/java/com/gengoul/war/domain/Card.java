@@ -1,5 +1,8 @@
 package com.gengoul.war.domain;
 
+import java.util.Objects;
+
+// TODO record ?
 public class Card {
 
     private final Suit suit;
@@ -21,5 +24,17 @@ public class Card {
     @Override
     public String toString() {
         return value.getSymbol() + suit.getSymbol();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Card card = (Card) o;
+        return suit == card.suit && value == card.value;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(suit, value);
     }
 }
