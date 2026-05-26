@@ -34,7 +34,7 @@ public class Menu {
         System.out.println("******************************************");
     }
 
-    private int getUserEntry(int min, int max) {
+    public int getUserEntry(int min, int max) {
         while (true) {
             if (scanner.hasNextInt()) {
                 int entry = scanner.nextInt();

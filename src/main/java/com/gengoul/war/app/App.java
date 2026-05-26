@@ -6,15 +6,17 @@ import com.gengoul.war.ui.GameMenuAction;
 import com.gengoul.war.ui.MainMenuAction;
 import com.gengoul.war.ui.Menu;
 
-import java.util.Scanner;
-
 public class App {
 
-    public static void main(String[] args) {
-        ConsoleRenderer renderer = new ConsoleRenderer();
-        Deck fullDeck = Deck.createFullDeck();
+    private final Menu menu = new Menu();
+    private final ConsoleRenderer renderer = new ConsoleRenderer();
 
-        Menu menu = new Menu();
+    public static void main(String[] args) {
+        new App().run();
+    }
+
+    public void run() {
+        Deck fullDeck = Deck.createFullDeck();
         while (true) {
             MainMenuAction mainMenuAction = menu.mainMenu();
             switch (mainMenuAction) {
@@ -26,11 +28,9 @@ public class App {
         }
     }
 
-    private static void newGame(Deck deck) {
-        int playerCount = getUserEntry(2,4);
-
+    private void newGame(Deck deck) {
+        int playerCount = menu.getUserEntry(2,4);
         WarGame warGame = new WarGame(deck, playerCount);
-        Menu menu = new Menu();
 
         // Boucle de partie
         while (!warGame.isOver()) { // TODO negative condition
@@ -51,21 +51,5 @@ public class App {
         }
 
         System.out.println("MACHIN a gagné la partie !");
-    }
-
-    // TODO duplicated in Menu
-    private static int getUserEntry(int min, int max) {
-        Scanner scanner = new Scanner(System.in);
-        while (true) {
-            if (scanner.hasNextInt()) {
-                int entry = scanner.nextInt();
-                if (entry >= min && entry <= max) {
-                    return entry;
-                }
-            } else {
-                scanner.next();
-            }
-            System.out.println("Entrée invalide.");
-        }
     }
 }
