@@ -35,7 +35,8 @@ public class WarGame {
 
     public boolean isOver() {
         return players.stream()
-                .anyMatch(player -> player.getDeck().isEmpty());
+                .filter(Player::hasCards)
+                .count() <= 1;
     }
 
     public RoundResult nextRound() {
