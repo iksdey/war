@@ -53,7 +53,7 @@ public class App {
                     // TODO déléguer plus de choses à ConsoleRenderer ?
                     warGame.getPlayers().forEach(player -> {
                         System.out.println(player.getName());
-                        renderer.displayCards(player.getDeck().getCards());
+                        renderer.displayCards(player.getCards());
                     });
                 }
                 case GO_TO_END_OF_GAME -> {

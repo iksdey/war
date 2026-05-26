@@ -22,12 +22,13 @@ public class WarGame {
         }
         for (int i=0; i<cardsPerPlayer; i++) {
             for (Player player : players) {
-                player.getDeck().addOnTop(deck.drawCard());
+                player.receiveCard(deck.drawCard());
             }
         }
     }
 
-    // Package private constructor for testing purposes
+    // Package-private constructor for testing purposes
+    // TODO à virer si possible
     WarGame(List<Player> players) {
         this.players.addAll(players);
     }
