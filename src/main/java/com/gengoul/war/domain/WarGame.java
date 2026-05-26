@@ -8,8 +8,9 @@ public class WarGame {
     private Deck cards;
     private List<Player> players;
 
+    // TODO check if too many players ?
     public WarGame(Deck cards, int playerCount) {
-
+        
     }
 
     public boolean isOver() {

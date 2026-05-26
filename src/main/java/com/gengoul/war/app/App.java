@@ -20,13 +20,13 @@ public class App {
             switch (mainMenuAction) {
                 case DISPLAY_CARDS -> renderer.displayCards(fullDeck.getCards());
                 case SHUFFLE_CARDS -> fullDeck.shuffle();
-                case START_GAME -> startGame(fullDeck);
+                case NEW_GAME -> newGame(fullDeck);
                 default -> throw new IllegalStateException("Unexpected main menu action: " + mainMenuAction);
             }
         }
     }
 
-    private static void startGame(Deck deck) {
+    private static void newGame(Deck deck) {
         int playerCount = getUserEntry(2,4);
 
         WarGame warGame = new WarGame(deck, playerCount);

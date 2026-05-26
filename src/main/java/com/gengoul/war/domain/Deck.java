@@ -37,6 +37,10 @@ public class Deck {
         cards.addAll(tmpCards);
     }
 
+    public boolean isEmpty() {
+        return cards.isEmpty();
+    }
+
     // Crée un paquet classique de 52 cartes
     public static Deck createFullDeck() {
         Deck fullDeck = new Deck();

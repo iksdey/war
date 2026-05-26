@@ -4,7 +4,7 @@ public enum MainMenuAction {
 
     DISPLAY_CARDS(1),
     SHUFFLE_CARDS(2),
-    START_GAME(3);
+    NEW_GAME(3);
 
     private final int value;
 
