@@ -5,17 +5,19 @@ import java.util.*;
 public class Deck {
 
     /**
-     * Lorsque les cartes sont face cachée, la première carte se trouve en tête de la Deque
+     * Lorsque les cartes sont face cachée, la première carte se trouve en tête de la ArrayDeque
      */
     private final Deque<Card> cards = new ArrayDeque<>();
 
+    // TODO coms style javadoc ?
     // Expose une liste immuable des cartes
     public List<Card> getCards() {
         return List.copyOf(cards);
     }
 
-    // Tirer une carte sur le deck
-    // TODO retourner Optional ? Throw une exception si pas de carte ? tester isEmpty avant ?
+    /**
+     * @return la première carte du Deck, null si le deck est vide
+     */
     public Card drawCard() {
         return cards.pollFirst();
     }

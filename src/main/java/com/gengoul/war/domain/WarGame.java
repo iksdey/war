@@ -15,6 +15,8 @@ public class WarGame {
         for (int i=1; i<=playerCount; i++) {
             players.add(new Player("Joueur " + i));
         }
+        // TODO distribution des cartes : on fait en sorte que tout le monde ait le même
+        //  nombre de carte, on discard ce qui est en trop
     }
 
     // Expose une liste immuable des joueurs
@@ -29,8 +31,6 @@ public class WarGame {
 
     // TODO : ça ou bien deux méthodes : void nextRound() et RoundResult getLastRoundResult() ?
     public RoundResult nextRound() {
-        // TODO : le fait que cette classe modifie les états des Decks des joueurs, c'est grave ou bien c'est la seule manière ?
-        // est-ce un effet de bord ? ça peut être fait différemment ?
         return new RoundResult(
                 players.stream().findAny().orElseThrow(() -> new IllegalStateException("No players")).getName(),
                 List.of()
