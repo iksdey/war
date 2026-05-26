@@ -1,10 +1,14 @@
 package com.gengoul.war.domain;
 
+import java.util.List;
 import java.util.Random;
 
 public class WarGame {
 
-    public WarGame(int playersCount) {
+    private Deck cards;
+    private List<Player> players;
+
+    public WarGame(Deck cards, int playerCount) {
 
     }
 
