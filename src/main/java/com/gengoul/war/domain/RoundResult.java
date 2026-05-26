@@ -5,6 +5,11 @@ import java.util.List;
 // TODO record
 public class RoundResult {
 
-    private String winner;
-    private List<BattleStep> steps;
+    private final String winner;
+    private final List<BattleStep> steps;
+
+    public RoundResult(String winner, List<BattleStep> steps) {
+        this.winner = winner;
+        this.steps = steps;
+    }
 }
