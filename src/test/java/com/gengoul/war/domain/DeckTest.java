@@ -44,7 +44,7 @@ class DeckTest {
     }
 
     @Test
-    void givenDeck_whenAddCardAtBottom_thenCardIsAtBottom() {
+    void givenDeck_whenAddCardToBottom_thenCardIsToBottom() {
 
     }
 

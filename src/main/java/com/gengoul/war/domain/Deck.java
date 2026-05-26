@@ -25,7 +25,7 @@ public class Deck {
         cards.addFirst(card);
     }
 
-    public void addAtBottom(Card card) {
+    public void addToBottom(Card card) {
         cards.addLast(card);
     }
 
