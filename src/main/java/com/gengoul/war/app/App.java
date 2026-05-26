@@ -8,6 +8,9 @@ import com.gengoul.war.ui.Menu;
 
 public class App {
 
+    private static final int MIN_PLAYERS = 2;
+    private static final int MAX_PLAYERS = 4;
+
     private final Menu menu = new Menu();
     private final ConsoleRenderer renderer = new ConsoleRenderer();
 
@@ -29,7 +32,7 @@ public class App {
     }
 
     private void newGame(Deck deck) {
-        int playerCount = menu.getUserEntry(2,4);
+        int playerCount = menu.getUserEntry(MIN_PLAYERS, MAX_PLAYERS);
         WarGame warGame = new WarGame(deck, playerCount);
 
         // Boucle de partie
