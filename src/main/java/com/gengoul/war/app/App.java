@@ -40,6 +40,7 @@ public class App {
         WarGame warGame = new WarGame(deck, playerCount);
 
         // Boucle de partie
+        // TODO c'est pas un peu sale de laisser tant de contrôle sur le cours du jeu à la classe App et pas WarGame ?
         while (!warGame.isOver()) { // TODO negative condition
             GameMenuAction gameMenuAction = menu.gameMenu();
             switch (gameMenuAction) {
@@ -52,12 +53,13 @@ public class App {
                     // TODO déléguer plus de choses à ConsoleRenderer ?
                     warGame.getPlayers().forEach(player -> {
                         System.out.println(player.getName());
-                        renderer.displayCards(player.getCards());
+                        renderer.displayCards(player.getDeck().getCards());
                     });
                 }
                 case GO_TO_END_OF_GAME -> {
                     // TODO ou bien on fait un while(...) {nextTurn} pour afficher toutes les mains...
                     warGame.playUntilGameOver();
+                    // TODO car ici on véréfie que le game is over dans WarGame et dans le while ici
                 }
                 default -> throw new IllegalStateException("Unexpected game menu action: " + gameMenuAction);
             }

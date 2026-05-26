@@ -10,10 +10,13 @@ public class Deck {
     private final Deque<Card> cards = new ArrayDeque<>();
 
     // TODO coms style javadoc ?
-    // Expose une liste immuable des cartes
+    // Expose une liste immuable des cartes, TODO dans l'ordre de tirage (est-ce vrai ?)
+    // TODO vraiment utile sachant que le Renderer peut utiliser les autres méthodes ?
     public List<Card> getCards() {
         return List.copyOf(cards);
     }
+
+    // TODO size method ?
 
     /**
      * @return la première carte du Deck, null si le deck est vide

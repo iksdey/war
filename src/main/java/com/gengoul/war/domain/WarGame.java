@@ -2,48 +2,61 @@ package com.gengoul.war.domain;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class WarGame {
 
-    private final Deck cards;
     private final List<Player> players = new ArrayList<>();
 
-    // TODO check here if too many players ?
-    public WarGame(Deck cards, int playerCount) {
-        this.cards = cards;
+    /**
+     * @param deck le jeu de cartes à utiliser pour la partie
+     */
+    public WarGame(Deck deck, int playerCount) {
         for (int i=1; i<=playerCount; i++) {
-            players.add(new Player("Joueur " + i));
+            players.add(new Player("Joueur " + i)); // TODO final static String pour nom ?
         }
-        // TODO distribution des cartes : on fait en sorte que tout le monde ait le même
-        //  nombre de carte, on discard ce qui est en trop
+
+        // On distribue le même nombre de cartes à chaque joueur
+        int cardsPerPlayer = deck.getCards().size() / playerCount;
+        if (cardsPerPlayer < 1) {
+            throw new IllegalArgumentException("Pas assez de cartes pour jouer !");
+        }
+        for (int i=0; i<cardsPerPlayer; i++) {
+            for (Player player : players) {
+                player.getDeck().addOnTop(deck.drawCard());
+            }
+        }
     }
 
-    // Expose une liste immuable des joueurs
-    // TODO copie immuable/encapsulation utile ?
-    public List<Player> getPlayers() {
-        return List.copyOf(players);
+    // Package private constructor for testing purposes
+    WarGame(List<Player> players) {
+        this.players.addAll(players);
     }
 
     public boolean isOver() {
-        return new Random().nextBoolean();
+        return players.stream()
+                .anyMatch(player -> player.getDeck().isEmpty());
     }
 
-    // TODO : ça ou bien deux méthodes : void nextRound() et RoundResult getLastRoundResult() ?
     public RoundResult nextRound() {
-        return new RoundResult(
-                players.stream().findAny().orElseThrow(() -> new IllegalStateException("No players")).getName(),
-                List.of()
-        );
+        // TODO
+        RoundResult result = new RoundResult(null, null);
+        return result;
     }
 
     public void playUntilGameOver() {
+        // TODO inverted bool
         while (!isOver()) {
             nextRound();
         }
     }
 
+    // TODO attention au get
     public Player getWinner() {
         return players.stream().findAny().get();
+    }
+
+    // Expose une liste des joueurs immuable
+    public List<Player> getPlayers() {
+        return List.copyOf(players);
     }
 }

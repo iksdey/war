@@ -1,7 +1,6 @@
 package com.gengoul.war.domain;
 
-import java.util.List;
-
+// TODO record ?
 public class Player {
 
     private final String name;
@@ -12,13 +11,17 @@ public class Player {
         this.deck = new Deck();
     }
 
-    // Expose une liste immuable des cartes du joueur
-    // TODO : encapsulation utile ?
-    public List<Card> getCards() {
-        return deck.getCards();
+    // Package-private constructor for testing purposes
+    Player(String name, Deck deck) {
+        this.name = name;
+        this.deck = deck;
     }
 
     public String getName() {
         return name;
+    }
+
+    public Deck getDeck() {
+        return deck;
     }
 }
