@@ -74,7 +74,7 @@ class DeckTest {
     }
 
     @Test
-    void givenEmptyDeck_whenDraw_thenReturnNull() {
+    void givenEmptyDeck_whenDraw_thenReturnsNull() {
         // Given
         Deck deck = createEmptyDeck();
 
@@ -86,7 +86,7 @@ class DeckTest {
     }
 
     @Test
-    void givenEmptyDeck_whenIsEmpty_thenReturnTrue() {
+    void givenEmptyDeck_whenIsEmpty_thenReturnsTrue() {
         // Given
         Deck deck = createEmptyDeck();
 
@@ -98,7 +98,7 @@ class DeckTest {
     }
 
     @Test
-    void givenNotEmptyDeck_whenIsEmpty_thenReturnFalse() {
+    void givenNotEmptyDeck_whenIsEmpty_thenReturnsFalse() {
         // Given
         Deck deck = createOneCardDeck();
 
