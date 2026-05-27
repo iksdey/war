@@ -41,11 +41,6 @@ class WarGameTest {
 
     }
 
-    @Test
-    void givenDifferentCards_whenNextRound_thenHighestCardWinsRound() {
-
-    }
-
     /*
      * TODO tests de la méthode nextRound (on vérifie dans chaque test l'object RoundResult renvoyé + l'état des Deck des joueurs et autres) :
      *  - un joueur gagne le tour
