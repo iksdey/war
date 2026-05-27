@@ -30,6 +30,11 @@ public class Player {
         return deck.drawCard();
     }
 
+    /* TODO cette méthode doit :
+        1. recevoir les cartes dans le bon ordre
+        2. ajouter les cartes dans le bon ordre
+        pour que le comportement corresponde au comportement déterministe de la spec
+     */
     public void winCards(List<Card> cards) {
         cards.forEach(deck::addToBottom);
     }
