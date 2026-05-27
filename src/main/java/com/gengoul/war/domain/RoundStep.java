@@ -2,6 +2,8 @@ package com.gengoul.war.domain;
 
 import java.util.LinkedHashMap;
 
-// map with ordered keys
+/**
+ * @param playedCards maps each Player to the Card they played
+ */
 public record RoundStep(LinkedHashMap<Player, Card> playedCards) {
 }

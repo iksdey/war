@@ -51,7 +51,7 @@ class RoundManagerTest {
     // Helper methods
 
     /**
-     * @return a Player with the given Cards being placed from top to bottom in his Deck
+     * @return a Player with the given Cards placed in their Deck from top to bottom
      */
     private Player createPlayer(String name, Card... cards) {
         Player player = new Player(name);
