@@ -51,11 +51,6 @@ public class WarGame {
         }
     }
 
-    // TODO attention au get
-    public Player getWinner() {
-        return players.stream().findAny().get();
-    }
-
     // Expose une liste des joueurs immuable
     public List<Player> getPlayers() {
         return List.copyOf(players);

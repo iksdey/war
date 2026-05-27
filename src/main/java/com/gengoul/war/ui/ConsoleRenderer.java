@@ -7,12 +7,6 @@ import java.util.List;
 
 public class ConsoleRenderer {
 
-    /* TODO
-    *   - afficher un Deck
-    *   - afficher un tour
-    *   - afficher une bataille
-    * */
-
     public void displayCards(List<Card> cards) {
         for (Card card : cards) {
             System.out.print(card + "  ");
@@ -21,6 +15,7 @@ public class ConsoleRenderer {
     }
 
     public void displayRound(RoundResult round) {
+        // TODO
         System.out.println("Le round en question :" + round);
     }
 }

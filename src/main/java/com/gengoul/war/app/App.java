@@ -65,6 +65,6 @@ public class App {
             }
         }
 
-        System.out.println(warGame.getWinner().getName() + " a gagné la partie !");
+        System.out.println("X a gagné la partie 8");
     }
 }
