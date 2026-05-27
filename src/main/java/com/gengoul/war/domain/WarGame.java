@@ -6,7 +6,7 @@ import java.util.List;
 public class WarGame {
 
     private final List<Player> players = new ArrayList<>();
-    private final RoundManager roundManager = new RoundManager();
+    private final RoundResolver roundResolver = new RoundResolver();
 
     /**
      * @param deck le jeu de cartes à utiliser pour la partie
@@ -41,7 +41,7 @@ public class WarGame {
     }
 
     public RoundResult nextRound() {
-        return roundManager.resolveRound(players);
+        return roundResolver.resolveRound(players);
     }
 
     public void playUntilGameOver() {

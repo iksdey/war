@@ -5,9 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-class RoundManagerTest {
+class RoundResolverTest {
 
     // Test cards
     private static final Card ACE_SPADES = new Card(Suit.SPADES, Rank.ACE);
@@ -18,11 +16,11 @@ class RoundManagerTest {
     private static final Card NINE_CLUBS = new Card(Suit.CLUBS, Rank.NINE);
     private static final Card TWO_CLUBS = new Card(Suit.CLUBS, Rank.TWO);
 
-    private RoundManager roundManager;
+    private RoundResolver roundResolver;
 
     @BeforeEach
     void setUp() {
-        roundManager = new RoundManager();
+        roundResolver = new RoundResolver();
     }
 
     @Test
@@ -42,7 +40,7 @@ class RoundManagerTest {
         List<Player> players = List.of(p1, p2);
 
         // When
-        RoundResult result = roundManager.resolveRound(players);
+        RoundResult result = roundResolver.resolveRound(players);
 
         // Then
 
