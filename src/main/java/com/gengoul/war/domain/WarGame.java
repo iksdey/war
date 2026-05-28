@@ -41,7 +41,10 @@ public class WarGame {
     }
 
     public RoundResult nextRound() {
-        return roundResolver.resolveRound(players);
+        List<Player> activePlayers = players.stream()
+                .filter(Player::hasCards)
+                .toList();
+        return roundResolver.resolveRound(activePlayers);
     }
 
     // TODO : à faire autrement si on veut afficher chaque tour, en fait renvoyer une liste de RoundResult qui sera utilisée par le renderer
