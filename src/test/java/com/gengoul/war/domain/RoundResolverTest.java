@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 class RoundResolverTest {
 
     // Test cards
@@ -33,7 +35,7 @@ class RoundResolverTest {
         );
 
         Player p2 = createPlayer(
-                "J1",
+                "J2",
                 QUEEN_HEARTS,
                 KING_CLUBS
         );
@@ -43,7 +45,7 @@ class RoundResolverTest {
         RoundResult result = roundResolver.resolveRound(players);
 
         // Then
-
+        assertSame(p1, result.winner());
     }
 
     // Helper methods
