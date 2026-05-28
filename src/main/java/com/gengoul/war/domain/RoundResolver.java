@@ -20,16 +20,18 @@ public class RoundResolver {
             throw new IllegalStateException("Every player must have at least one card");
         }
 
-        List<Player> remainingPlayers = new ArrayList<>(players);
+        List<Player> contenders = new ArrayList<>(players);
         List<RoundStep> steps = new ArrayList<>();
+        List<Card> pot = new ArrayList<>();
 
         // Round main loop
-        while (remainingPlayers.size() > 1) { // tant qu'il reste plus d'un joueur à l'issue de la bataille
+        while (contenders.size() > 1) { // tant qu'il reste plus d'un joueur à l'issue de la bataille
 
             LinkedHashMap<Player, Card> playedCards = new LinkedHashMap<>();
-            for (Player player : remainingPlayers) {
+            for (Player player : contenders) {
                 Card card = player.drawCard();
                 playedCards.put(player, card);
+                pot.add(card);
             }
             steps.add(new RoundStep(playedCards));
 
@@ -37,21 +39,25 @@ public class RoundResolver {
                     .max(Card::compareTo)
                     .orElseThrow();
 
-            List<Player> highestPlayers = playedCards.entrySet().stream()
+            // Players whose card played in the current step has the highest value
+            List<Player> tiedLeaders = playedCards.entrySet().stream()
                     .filter(entry -> entry.getValue().compareTo(highestCard) == 0)
                     .map(Map.Entry::getKey)
                     .toList();
 
-            if (highestPlayers.size() == 1) {
-                remainingPlayers = highestPlayers;
+            if (tiedLeaders.size() == 1) {
+                contenders = tiedLeaders;
             } else {
-                remainingPlayers = highestPlayers.stream()
+                contenders = tiedLeaders.stream()
                         .filter(Player::hasCards)
                         .toList();
             }
         }
 
-        Player winner = remainingPlayers.size() == 1 ? remainingPlayers.getFirst() : null;
+        Player winner = contenders.size() == 1 ? contenders.getFirst() : null;
+        if (winner != null) {
+            winner.winCards(pot);
+        }
 
         return new RoundResult(winner, steps);
     }
