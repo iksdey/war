@@ -35,22 +35,15 @@ public class RoundResolver {
             }
             steps.add(new RoundStep(playedCards));
 
-            Card highestCard = playedCards.values().stream()
-                    .max(Card::compareTo)
-                    .orElseThrow();
+            Card highestCard = findHighestCard(playedCards);
 
             // Players whose card played in the current step has the highest value
-            List<Player> tiedLeaders = playedCards.entrySet().stream()
-                    .filter(entry -> entry.getValue().compareTo(highestCard) == 0)
-                    .map(Map.Entry::getKey)
-                    .toList();
+            List<Player> tiedLeaders = findTiedLeaders(playedCards, highestCard);
 
             if (tiedLeaders.size() == 1) {
                 contenders = tiedLeaders;
             } else {
-                contenders = tiedLeaders.stream()
-                        .filter(Player::hasCards)
-                        .toList();
+                contenders = filterRemainingContenders(tiedLeaders);
             }
         }
 
@@ -60,5 +53,24 @@ public class RoundResolver {
         }
 
         return new RoundResult(winner, steps);
+    }
+
+    private Card findHighestCard(Map<Player, Card> playedCards) {
+        return playedCards.values().stream()
+                .max(Card::compareTo)
+                .orElseThrow();
+    }
+
+    private List<Player> findTiedLeaders(Map<Player, Card> playedCards, Card highestCard) {
+        return playedCards.entrySet().stream()
+                .filter(entry -> entry.getValue().compareTo(highestCard) == 0)
+                .map(Map.Entry::getKey)
+                .toList();
+    }
+
+    private List<Player> filterRemainingContenders(List<Player> tiedLeaders) {
+        return tiedLeaders.stream()
+                .filter(Player::hasCards)
+                .toList();
     }
 }
