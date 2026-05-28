@@ -117,6 +117,33 @@ class RoundResolverTest {
     }
 
     @Test
+    void givenBattle_whenResolveRound_thenWinnerCollectsAllPlayedCardsInPlayOrder() {
+        // Given
+        Player p1 = createPlayer(
+                "J1",
+                KING_CLUBS,
+                ACE_SPADES
+        );
+        Player p2 = createPlayer(
+                "J2",
+                KING_HEARTS,
+                QUEEN_HEARTS
+        );
+        List<Player> players = List.of(p1, p2);
+
+        // When
+        RoundResult result = roundResolver.resolveRound(players);
+
+        // Then
+        assertSame(p1, result.winner());
+        assertEquals(
+                List.of(KING_CLUBS, KING_HEARTS, ACE_SPADES, QUEEN_HEARTS),
+                p1.getCards()
+        );
+        assertTrue(p2.getCards().isEmpty());
+    }
+
+    @Test
     void givenTieWithRemainingCards_whenResolveRound_thenBattleContinues() {
         /* TODO
             Égalité simple suivie d’un départage
@@ -275,6 +302,33 @@ class RoundResolverTest {
         assertTrue(battleStep.playedCards().containsKey(p1));
         assertTrue(battleStep.playedCards().containsKey(p2));
         assertFalse(battleStep.playedCards().containsKey(p3));
+    }
+
+    @Test
+    void givenTieAndOnlyOneLeaderHasRemainingCards_whenResolveRound_thenRemainingLeaderWinsRound() {
+        // Given
+        Player p1 = createPlayer(
+                "J1",
+                KING_CLUBS
+        );
+        Player p2 = createPlayer(
+                "J2",
+                KING_HEARTS,
+                QUEEN_HEARTS
+        );
+        List<Player> players = List.of(p1, p2);
+
+        // When
+        RoundResult result = roundResolver.resolveRound(players);
+
+        // Then
+        assertSame(p2, result.winner());
+        assertEquals(1, result.steps().size());
+        assertTrue(p1.getCards().isEmpty());
+        assertEquals(
+                List.of(QUEEN_HEARTS, KING_CLUBS, KING_HEARTS),
+                p2.getCards()
+        );
     }
 
     // Helper methods
