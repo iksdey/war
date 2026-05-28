@@ -5,7 +5,7 @@ import java.util.List;
 
 public class WarGame {
 
-    private final List<Player> players = new ArrayList<>();
+    private final List<Player> players = new ArrayList<>(); // TODO déclarer et construire autrement pour que la liste des joueurs soit immuable ?
     private final RoundResolver roundResolver = new RoundResolver();
 
     /**
@@ -44,6 +44,7 @@ public class WarGame {
         return roundResolver.resolveRound(players);
     }
 
+    // TODO : à faire autrement si on veut afficher chaque tour, en fait renvoyer une liste de RoundResult qui sera utilisée par le renderer
     public void playUntilGameOver() {
         // TODO inverted bool
         while (!isOver()) {
