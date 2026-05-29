@@ -1,5 +1,6 @@
 package com.gengoul.war.domain;
 
+import java.util.Collections;
 import java.util.List;
 
 public class Player {
@@ -24,6 +25,7 @@ public class Player {
     }
 
     public void winCards(List<Card> cards) {
+        Collections.shuffle(cards);
         cards.forEach(deck::addToBottom);
     }
 
