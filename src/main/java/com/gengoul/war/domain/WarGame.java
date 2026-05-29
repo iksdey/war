@@ -48,7 +48,6 @@ public class WarGame {
         return roundResolver.resolveRound(activePlayers);
     }
 
-    // TODO : à faire autrement si on veut afficher chaque tour, en fait renvoyer une liste de RoundResult qui sera utilisée par le renderer
     public void playUntilGameOver() {
         while (!isOver()) {
             nextRound();
