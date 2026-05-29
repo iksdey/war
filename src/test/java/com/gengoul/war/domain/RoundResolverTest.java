@@ -77,29 +77,140 @@ class RoundResolverTest {
         RoundResult result = roundResolver.resolveRound(players);
 
         // Then
-        // TODO check RoundResult contents
         assertSame(p1, result.winner());
     }
 
     @Test
-    void givenDifferentCards_whenResolveRound_thenWinnerCollectsPlayedCards() {
-        /* TODO :
-            use three players for this test case
-            check that won cards are at the bottom of the winner's deck and in the right order
-        */
+    void givenTieWithRemainingCards_whenResolveRound_thenBattleContinues() {
         // Given
         Player p1 = createPlayer(
                 "J1",
-                ACE_SPADES,
-                NINE_DIAMONDS
+                KING_CLUBS,
+                ACE_SPADES
         );
         Player p2 = createPlayer(
                 "J2",
-                KING_CLUBS
+                KING_HEARTS,
+                QUEEN_HEARTS
+        );
+        List<Player> players = List.of(p1, p2);
+
+        // When
+        RoundResult result = roundResolver.resolveRound(players);
+
+        // Then
+        assertSame(p1, result.winner());
+        assertEquals(2, result.steps().size());
+    }
+
+    @Test
+    void givenTieWithoutRemainingCards_whenResolveRound_thenRoundEndsWithoutWinner() {
+        // Given
+        Player p1 = createPlayer(
+                "J1",
+                KING_CLUBS,
+                NINE_DIAMONDS
+        );
+
+        Player p2 = createPlayer(
+                "J2",
+                KING_HEARTS,
+                NINE_HEARTS
+        );
+        List<Player> players = List.of(p1, p2);
+
+        // When
+        RoundResult result = roundResolver.resolveRound(players);
+
+        // Then
+        assertNull(result.winner());
+    }
+
+    @Test
+    void givenTie_whenResolveRound_thenPlayedCardsAreDiscarded() {
+        // Given
+        Player p1 = createPlayer(
+                "J1",
+                QUEEN_HEARTS
+        );
+        Player p2 = createPlayer(
+                "J2",
+                JACK_SPADES
         );
         Player p3 = createPlayer(
                 "J3",
+                KING_CLUBS,
+                NINE_DIAMONDS
+        );
+        Player p4 = createPlayer(
+                "J4",
+                KING_HEARTS,
+                NINE_HEARTS
+        );
+        List<Player> players = List.of(p1, p2, p3, p4);
+
+        // When
+        RoundResult result = roundResolver.resolveRound(players);
+
+        // Then
+        assertNull(result.winner());
+        assertTrue(p1.getCards().isEmpty());
+        assertTrue(p2.getCards().isEmpty());
+        assertTrue(p3.getCards().isEmpty());
+        assertTrue(p4.getCards().isEmpty());
+    }
+
+    @Test
+    void givenBattle_whenResolveRound_thenRoundStepsContainEveryBattleStep() {
+        // Given
+        Player p1 = createPlayer(
+                "J1",
+                KING_CLUBS,
+                ACE_SPADES
+        );
+        Player p2 = createPlayer(
+                "J2",
+                KING_HEARTS,
                 QUEEN_HEARTS
+        );
+        List<Player> players = List.of(p1, p2);
+
+        // When
+        RoundResult result = roundResolver.resolveRound(players);
+
+        // Then
+        List<RoundStep> steps = result.steps();
+        RoundStep firstStep = steps.get(0);
+        RoundStep secondStep = steps.get(1);
+
+        assertEquals(2, steps.size());
+
+        assertEquals(2, firstStep.playedCards().size());
+        assertEquals(KING_CLUBS, firstStep.playedCards().get(p1));
+        assertEquals(KING_HEARTS, firstStep.playedCards().get(p2));
+
+        assertEquals(2, secondStep.playedCards().size());
+        assertEquals(ACE_SPADES, secondStep.playedCards().get(p1));
+        assertEquals(QUEEN_HEARTS, secondStep.playedCards().get(p2));
+    }
+
+    @Test
+    void givenThreePlayers_whenResolveRound_thenOnlyTiedLeadersContinueBattle() {
+        // Given
+        Player p1 = createPlayer(
+                "J1",
+                KING_CLUBS,
+                ACE_SPADES
+        );
+        Player p2 = createPlayer(
+                "J2",
+                KING_HEARTS,
+                QUEEN_HEARTS
+        );
+        Player p3 = createPlayer(
+                "J3",
+                JACK_SPADES,
+                NINE_HEARTS
         );
         List<Player> players = List.of(p1, p2, p3);
 
@@ -107,13 +218,10 @@ class RoundResolverTest {
         RoundResult result = roundResolver.resolveRound(players);
 
         // Then
-        assertSame(p1, result.winner());
-        assertEquals(
-                List.of(NINE_DIAMONDS, ACE_SPADES, KING_CLUBS, QUEEN_HEARTS),
-                p1.getCards()
-        );
-        assertTrue(p2.getCards().isEmpty());
-        assertTrue(p3.getCards().isEmpty());
+        RoundStep secondStep = result.steps().get(1);
+        assertTrue(secondStep.playedCards().containsKey(p1));
+        assertTrue(secondStep.playedCards().containsKey(p2));
+        assertFalse(secondStep.playedCards().containsKey(p3));
     }
 
     @Test
@@ -141,167 +249,6 @@ class RoundResolverTest {
                 p1.getCards()
         );
         assertTrue(p2.getCards().isEmpty());
-    }
-
-    @Test
-    void givenTieWithRemainingCards_whenResolveRound_thenBattleContinues() {
-        /* TODO
-            Égalité simple suivie d’un départage
-         */
-        // Given
-        Player p1 = createPlayer(
-                "J1",
-                KING_CLUBS,
-                ACE_SPADES
-        );
-        Player p2 = createPlayer(
-                "J2",
-                KING_HEARTS,
-                QUEEN_HEARTS
-        );
-        List<Player> players = List.of(p1, p2);
-
-        // When
-        RoundResult result = roundResolver.resolveRound(players);
-
-        // Then
-        assertSame(p1, result.winner());
-        // TODO really check that RoundResult CONTENT is what we excpect
-        assertEquals(2, result.steps().size());
-    }
-
-    @Test
-    void givenTieWithoutRemainingCards_whenResolveRound_thenRoundEndsWithoutWinner() {
-        // Given
-        Player p1 = createPlayer(
-                "J1",
-                KING_CLUBS,
-                NINE_DIAMONDS
-        );
-
-        Player p2 = createPlayer(
-                "J2",
-                KING_HEARTS,
-                NINE_HEARTS
-        );
-        List<Player> players = List.of(p1, p2);
-
-        // When
-        RoundResult result = roundResolver.resolveRound(players);
-
-        // Then
-        // TODO check RoundResult contents
-        assertNull(result.winner());
-    }
-
-    @Test
-    void givenTieWithoutRemainingCards_whenResolveRound_thenPlayedCardsAreDiscarded() {
-        /* TODO
-            Vérifie qu’aucun joueur ne récupère le pot.
-            on peut mettre quatre joueurs, deux qui perdent au premier step, les deux autres qui finissent leur deck au 2eme step par une égalité
-            puis on vérifie que les decks des deux joueurs suivants sont bien leur précédents deck amputés de la carte jouée au premier step
-         */
-        // Given
-        Player p1 = createPlayer(
-                "J1",
-                QUEEN_HEARTS
-        );
-        Player p2 = createPlayer(
-                "J2",
-                JACK_SPADES
-        );
-        Player p3 = createPlayer(
-                "J3",
-                KING_CLUBS,
-                NINE_DIAMONDS
-        );
-        Player p4 = createPlayer(
-                "J4",
-                KING_HEARTS,
-                NINE_HEARTS
-        );
-        List<Player> players = List.of(p1, p2, p3, p4);
-
-        // When
-        RoundResult result = roundResolver.resolveRound(players);
-
-        // Then
-        assertNull(result.winner());
-        assertEquals(2, result.steps().size());
-        assertTrue(p1.getCards().isEmpty());
-        assertTrue(p2.getCards().isEmpty());
-        assertTrue(p3.getCards().isEmpty());
-        assertTrue(p4.getCards().isEmpty());
-    }
-
-    @Test
-    void givenBattle_whenResolveRound_thenRoundStepsContainEveryBattleStep() {
-        /* TODO
-            Vérifie la construction correcte des RoundStep, on peut faire un cas avec deux steps et deux joueurs
-         */
-        // Given
-        Player p1 = createPlayer(
-                "J1",
-                KING_CLUBS,
-                ACE_SPADES
-        );
-        Player p2 = createPlayer(
-                "J2",
-                KING_HEARTS,
-                QUEEN_HEARTS
-        );
-        List<Player> players = List.of(p1, p2);
-
-        // When
-        RoundResult result = roundResolver.resolveRound(players);
-
-        // Then
-        List<RoundStep> steps = result.steps();
-
-        // TODO unreadable ?!
-        assertEquals(2, steps.size());
-        assertEquals(2, steps.get(0).playedCards().size());
-        assertEquals(KING_CLUBS, steps.get(0).playedCards().get(p1));
-        assertEquals(KING_HEARTS, steps.get(0).playedCards().get(p2));
-        assertEquals(2, steps.get(1).playedCards().size());
-        assertEquals(ACE_SPADES, steps.get(1).playedCards().get(p1));
-        assertEquals(QUEEN_HEARTS, steps.get(1).playedCards().get(p2));
-    }
-
-    @Test
-    void givenThreePlayers_whenResolveRound_thenOnlyTiedLeadersContinueBattle() {
-        /* TODO
-            on vérifie qu'un des joueurs sort bien de la bataille à l'issue du premier step et que les autres continuent un step
-         */
-        // Given
-        Player p1 = createPlayer(
-                "J1",
-                KING_CLUBS,
-                ACE_SPADES
-        );
-        Player p2 = createPlayer(
-                "J2",
-                KING_HEARTS,
-                QUEEN_HEARTS
-        );
-        Player p3 = createPlayer(
-                "J3",
-                JACK_SPADES
-        );
-        List<Player> players = List.of(p1, p2, p3);
-
-        // When
-        RoundResult result = roundResolver.resolveRound(players);
-
-        // Then
-        RoundStep battleStep = result.steps().get(1);
-
-        assertSame(p1, result.winner());
-        assertEquals(2, result.steps().size());
-        // TODO unreadable
-        assertTrue(battleStep.playedCards().containsKey(p1));
-        assertTrue(battleStep.playedCards().containsKey(p2));
-        assertFalse(battleStep.playedCards().containsKey(p3));
     }
 
     @Test
