@@ -50,10 +50,24 @@ public class WarGame {
 
     // TODO : à faire autrement si on veut afficher chaque tour, en fait renvoyer une liste de RoundResult qui sera utilisée par le renderer
     public void playUntilGameOver() {
-        // TODO inverted bool
         while (!isOver()) {
             nextRound();
         }
+    }
+
+    /**
+     * @return le joueur ayant gagné la partie, null sinon
+     * @throws IllegalStateException si la partie n'est pas terminée
+     */
+    public Player getWinner() {
+        if (!isOver()) {
+            throw new IllegalStateException("Game is not over yet");
+        }
+
+        return players.stream()
+                .filter(Player::hasCards)
+                .findFirst()
+                .orElse(null);
     }
 
     // Expose une liste des joueurs immuable

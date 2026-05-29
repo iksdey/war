@@ -27,6 +27,14 @@ public class ConsoleRenderer {
         System.out.println();
     }
 
+    public void displayPlayersDecks(List<Player> players) {
+        for (Player player : players) {
+            System.out.println(player.getName());
+            displayCards(player.getCards());
+            System.out.println();
+        }
+    }
+
     public void displayRound(RoundResult round) {
         List<RoundStep> steps = round.steps();
         for (int i=0; i<steps.size(); i++) {
@@ -46,5 +54,39 @@ public class ConsoleRenderer {
         }
 
         System.out.println();
+    }
+
+    public void displayMainMenu() {
+        System.out.println("""
+            ************* Menu principal *************
+            1- Afficher les cartes
+            2- Mélanger les cartes
+            3- Commencer la partie
+            ******************************************
+            Votre choix ?
+            """);
+    }
+
+    public void displayGameMenu() {
+        System.out.println("""
+            **************** Menu jeu ****************
+            1- Main suivante
+            2- Afficher la distribution des cartes par joueur
+            3- Automatiser les mains jusqu’à la fin de la partie
+            ******************************************
+            Votre choix ?
+            """);
+    }
+
+    public void askNumberOfPlayers(int min, int max) {
+        System.out.println("Combien de joueurs (entre " + min + " et " + max + ") ?");
+    }
+
+    public void displayWinner(Player player) {
+        if (player == null) {
+            System.out.println("Partie nulle !");
+        } else {
+            System.out.println(player.getName() + " remporte la partie !");
+        }
     }
 }
