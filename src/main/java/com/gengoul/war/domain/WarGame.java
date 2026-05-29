@@ -29,7 +29,6 @@ public class WarGame {
     }
 
     // Package-private constructor for testing purposes
-    // TODO à virer si possible
     WarGame(List<Player> players) {
         this.players.addAll(players);
     }

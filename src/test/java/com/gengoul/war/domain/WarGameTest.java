@@ -2,6 +2,8 @@ package com.gengoul.war.domain;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class WarGameTest {
@@ -11,7 +13,6 @@ class WarGameTest {
     private static final Card QUEEN_HEARTS = new Card(Suit.HEARTS, Rank.QUEEN);
     private static final Card NINE_DIAMONDS = new Card(Suit.DIAMONDS, Rank.NINE);
     private static final Card NINE_HEARTS = new Card(Suit.HEARTS, Rank.NINE);
-    private static final Card NINE_CLUBS = new Card(Suit.CLUBS, Rank.NINE);
     private static final Card TWO_CLUBS = new Card(Suit.CLUBS, Rank.TWO);
 
     @Test
@@ -28,27 +29,63 @@ class WarGameTest {
 
     @Test
     void givenDeck_whenConstructor_thenCardsSequentiallyDistributed() {
+        // Given
+        Deck deck = createDeck(
+                ACE_SPADES,
+                QUEEN_HEARTS,
+                NINE_DIAMONDS,
+                NINE_HEARTS,
+                TWO_CLUBS
+        );
 
+        // When
+        WarGame warGame = new WarGame(deck, 3);
+
+        // Then
+        List<Player> players = warGame.getPlayers();
+
+        assertEquals(List.of(TWO_CLUBS), players.get(0).getCards());
+        assertEquals(List.of(NINE_HEARTS), players.get(1).getCards());
+        assertEquals(List.of(NINE_DIAMONDS), players.get(2).getCards());
     }
 
     @Test
-    void givenAPlayersDeckIsEmpty_whenCallingIsOver_returnsTrue() {
+    void givenOnlyOnePlayerHasCardsLeft_whenCallingIsOver_thenReturnsTrue() {
+        // Given
+        Player p1 = createPlayer("J1", ACE_SPADES);
+        Player p2 = createPlayer("J2");
+        Player p3 = createPlayer("J3");
+        WarGame warGame = new WarGame(List.of(p1, p2, p3));
 
+        // When
+        boolean isOver = warGame.isOver();
+
+        // Then
+        assertTrue(isOver);
     }
 
     @Test
-    void givenNoPlayersDeckIsEmpty_whenCallingIsOver_returnsFalse() {
+    void givenSeveralPlayersHaveCardsLeft_whenCallingIsOver_thenReturnsFalse() {
+        // Given
+        Player p1 = createPlayer("J1", ACE_SPADES);
+        Player p2 = createPlayer("J2", QUEEN_HEARTS);
+        Player p3 = createPlayer("J3");
+        WarGame warGame = new WarGame(List.of(p1, p2, p3));
 
+        // When
+        boolean isOver = warGame.isOver();
+
+        // Then
+        assertFalse(isOver);
     }
-
-    /*
-     * TODO tests de la méthode nextRound (on vérifie dans chaque test l'object RoundResult renvoyé + l'état des Deck des joueurs et autres) :
-     *  - un joueur gagne le tour
-     *  - une bataille
-     *
-     */
 
     // Helpers
+
+    private Deck createOneCardDeck() {
+        Deck deck = new Deck();
+        deck.addOnTop(new Card(Suit.SPADES, Rank.ACE));
+        return deck;
+    }
 
     private Deck createDeck(Card... cards) {
         Deck deck = new Deck();
@@ -58,10 +95,14 @@ class WarGameTest {
         return deck;
     }
 
-    // TODO remplacer par createDeck(Card...) pour plus de clarté ?
-    private Deck createOneCardDeck() {
-        Deck deck = new Deck();
-        deck.addOnTop(new Card(Suit.SPADES, Rank.ACE));
-        return deck;
+    /**
+     * @return a Player with the given Cards placed in their Deck from top to bottom
+     */
+    private Player createPlayer(String name, Card... cards) {
+        Player player = new Player(name);
+        for (int i = cards.length - 1; i >= 0; i--) {
+            player.receiveCard(cards[i]);
+        }
+        return player;
     }
 }
