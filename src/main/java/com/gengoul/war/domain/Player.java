@@ -12,13 +12,6 @@ public class Player {
         this.deck = new Deck();
     }
 
-    // TODO s'en débarrasser si possible
-    // Package-private constructor for testing purposes
-    Player(String name, Deck deck) {
-        this.name = name;
-        this.deck = deck;
-    }
-
     /**
      * Le joueur prend une carte dans le cadre de la distribution
      */
@@ -30,11 +23,6 @@ public class Player {
         return deck.drawCard();
     }
 
-    /* TODO cette méthode doit :
-        1. recevoir les cartes dans le bon ordre
-        2. ajouter les cartes dans le bon ordre
-        pour que le comportement corresponde au comportement déterministe de la spec
-     */
     public void winCards(List<Card> cards) {
         cards.forEach(deck::addToBottom);
     }
