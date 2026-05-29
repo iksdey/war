@@ -16,8 +16,6 @@ public class Menu {
         return GameMenuAction.fromInt(getUserEntry(1,3));
     }
 
-    // TODO : ces deux méthodes privées displayXxxMenu sont utiles ?
-
     private void displayMainMenu() {
         System.out.println("************* Menu principal *************");
         System.out.println("1- Afficher les cartes");

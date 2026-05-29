@@ -13,7 +13,7 @@ public class Player {
     }
 
     /**
-     * Le joueur prend une carte dans le cadre de la distribution
+     * Le joueur reçoit une carte dans le cadre de la distribution
      */
     public void receiveCard(Card card) {
         deck.addOnTop(card);

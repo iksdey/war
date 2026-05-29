@@ -8,9 +8,7 @@ import java.util.Map;
 public class RoundResolver {
 
     /**
-     * TODO
-     * @param players
-     * @return the result of the round, its player attribute being null if it's a tie
+     * @return le résultat du tour, son attribut player étant null s'il n'y a pas de gagnant
      */
     public RoundResult resolveRound(List<Player> players) {
         if (players.size() < 2) {
@@ -24,7 +22,7 @@ public class RoundResolver {
         List<RoundStep> steps = new ArrayList<>();
         List<Card> pot = new ArrayList<>();
 
-        // Round main loop
+        // Boucle principale d'un tour
         while (contenders.size() > 1) { // tant qu'il reste plus d'un joueur à l'issue de la bataille
 
             LinkedHashMap<Player, Card> playedCards = new LinkedHashMap<>();
@@ -37,7 +35,7 @@ public class RoundResolver {
 
             Card highestCard = findHighestCard(playedCards);
 
-            // Players whose card played in the current step has the highest value
+            // Joueurs ayant joué la carte ayant la plus grande valeur
             List<Player> tiedLeaders = findTiedLeaders(playedCards, highestCard);
 
             if (tiedLeaders.size() == 1) {

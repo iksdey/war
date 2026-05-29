@@ -5,7 +5,9 @@ import java.util.List;
 
 public class WarGame {
 
-    private final List<Player> players = new ArrayList<>(); // TODO déclarer et construire autrement pour que la liste des joueurs soit immuable ?
+    private static final String DEFAULT_NAME = "Joueur";
+
+    private final List<Player> players = new ArrayList<>();
     private final RoundResolver roundResolver = new RoundResolver();
 
     /**
@@ -13,7 +15,7 @@ public class WarGame {
      */
     public WarGame(Deck deck, int playerCount) {
         for (int i=1; i<=playerCount; i++) {
-            players.add(new Player("Joueur " + i)); // TODO final static String pour nom ?
+            players.add(new Player(DEFAULT_NAME + " " + i));
         }
 
         // On distribue le même nombre de cartes à chaque joueur
@@ -28,7 +30,7 @@ public class WarGame {
         }
     }
 
-    // Package-private constructor for testing purposes
+    // Constructeur package-private utilisé pour les tests
     WarGame(List<Player> players) {
         this.players.addAll(players);
     }
