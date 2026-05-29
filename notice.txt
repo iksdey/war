@@ -1,0 +1,13 @@
+Notice d'installation
+
+Prérequis :
+- Java 21
+- Maven 3.x
+
+Ouvrir un terminal et se placer dans le dossier du projet (war)
+
+Compiler l'application et lancer les tests avec Maven :
+mvn clean package
+
+Lancer l'application :
+java -jar target/war-1.0-RELEASE.jar
