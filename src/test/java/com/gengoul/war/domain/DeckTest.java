@@ -8,10 +8,19 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DeckTest {
 
+    // Test cards
+    private static final Card ACE_SPADES = new Card(Suit.SPADES, Rank.ACE);
+    private static final Card KING_HEARTS = new Card(Suit.HEARTS, Rank.KING);
+    private static final Card FIVE_CLUBS = new Card(Suit.CLUBS, Rank.FIVE);
+
     @Test
     void givenDeck_whenShuffle_thenStillContainsSameCards() {
         // Given
-        Deck deck = createFourCardDeck();
+        Deck deck = createDeck(
+                ACE_SPADES,
+                KING_HEARTS,
+                FIVE_CLUBS
+        );
         List<Card> cardsBeforeShuffle = deck.getCards();
 
         // When
@@ -27,50 +36,48 @@ class DeckTest {
     @Test
     void givenDeck_whenDraw_thenFirstCardIsDrawn() {
         // Given
-        Deck deck = createFourCardDeck();
+        Deck deck = createDeck(
+                ACE_SPADES,
+                KING_HEARTS
+        );
 
         // When
         Card drawnCard = deck.drawCard();
 
         // Then
-        // TODO aller directement chercher l'élément un dans le deck retourné par createFourCardDeck() ?
-        //  ce test peut casser facilement si on change createFourCardDeck()...
-        assertEquals(new Card(Suit.DIAMONDS, Rank.QUEEN), drawnCard);
+        assertSame(ACE_SPADES, drawnCard);
         assertFalse(deck.getCards().contains(drawnCard));
     }
 
     @Test
     void givenDeck_whenAddCardOnTop_thenCardIsOnTop() {
         // Given
-        // TODO use fourCardDeck ?
+        // Testing addOnTop with a Deck set up using addOnTop is acceptable
+        // as it is used to create a one Card Deck
         Deck deck = createOneCardDeck();
-        Card addedCard = new Card(Suit.HEARTS, Rank.KING);
 
         // When
-        deck.addOnTop(addedCard);
+        deck.addOnTop(KING_HEARTS);
 
         // Then
         Card drawnCard = deck.drawCard();
 
-        assertEquals(addedCard, drawnCard);
+        assertSame(KING_HEARTS, drawnCard);
     }
 
     @Test
     void givenDeck_whenAddCardToBottom_thenCardIsAtBottom() {
         // Given
-        // TODO use fourCardDeck ?
         Deck deck = createOneCardDeck();
-        Card addedCard = new Card(Suit.HEARTS, Rank.KING);
 
         // When
-        deck.addToBottom(addedCard);
+        deck.addToBottom(KING_HEARTS);
 
         // Then
-        // TODO ok ?
-        deck.drawCard();
-        Card drawnCard = deck.drawCard();
+        deck.drawCard(); // draw first card, the one from createOneCardDeck()
+        Card drawnCard = deck.drawCard(); // draw the card addedToBottom
 
-        assertEquals(addedCard, drawnCard);
+        assertSame(KING_HEARTS, drawnCard);
     }
 
     @Test
@@ -109,22 +116,25 @@ class DeckTest {
         assertFalse(isEmpty);
     }
 
-    private Deck createFourCardDeck() {
-        Deck deck = new Deck();
-        deck.addOnTop(new Card(Suit.SPADES, Rank.ACE));
-        deck.addOnTop(new Card(Suit.HEARTS, Rank.KING));
-        deck.addOnTop(new Card(Suit.CLUBS, Rank.FIVE));
-        deck.addOnTop(new Card(Suit.DIAMONDS, Rank.QUEEN));
-        return deck;
-    }
+    // Helper methods
 
     private Deck createEmptyDeck() {
         return new Deck();
     }
 
+    // We assume that Deck::addOnTop method works as intended
+
     private Deck createOneCardDeck() {
         Deck deck = new Deck();
-        deck.addOnTop(new Card(Suit.SPADES, Rank.ACE));
+        deck.addOnTop(new Card(Suit.DIAMONDS, Rank.TWO));
+        return deck;
+    }
+
+    private Deck createDeck(Card... cardsFromTopToBottom) {
+        Deck deck = new Deck();
+        for (int i = cardsFromTopToBottom.length - 1; i >= 0; i--) {
+            deck.addOnTop(cardsFromTopToBottom[i]);
+        }
         return deck;
     }
 }
