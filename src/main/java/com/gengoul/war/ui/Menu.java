@@ -22,6 +22,7 @@ public class Menu {
         System.out.println("2- Mélanger les cartes");
         System.out.println("3- Commencer la partie");
         System.out.println("******************************************");
+        System.out.println("Votre choix ? ");
     }
 
     private void displayGameMenu() {
@@ -30,6 +31,7 @@ public class Menu {
         System.out.println("2- Afficher la distribution des cartes par joueur");
         System.out.println("3- Automatiser les mains jusqu’à la fin de la partie");
         System.out.println("******************************************");
+        System.out.println("Votre choix ? ");
     }
 
     public int getUserEntry(int min, int max) {
